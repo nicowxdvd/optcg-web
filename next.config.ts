@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+  remotePatterns: [{
+      protocol: "https",
+      hostname: "en.onepiece-cardgame.com",
+      port: "",
+      pathname: "/images/cardlist/card/**",
+    },],
+  },
   turbopack: {
     rules: {
       "*.css": {
