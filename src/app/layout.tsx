@@ -25,12 +25,17 @@ export const metadata: Metadata = {
   title: "OPTCG",
 };
 
+const themeScript = `try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${outfit.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="es" suppressHydrationWarning className={`${outfit.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <Header />
-        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col px-6 py-6">
+        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col px-6 py-2">
           {children}
         </main>
       </body>
