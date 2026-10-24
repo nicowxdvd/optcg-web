@@ -9,12 +9,18 @@ const links = [
   { href: "/", label: "Facebook",  Icon: SiFacebook }
 ];
 
-export const SocialLinks = () => {
+export default function SocialLinks() {
   return (
-     <div className="flex items-center gap-4">
+    <div className="ml-auto flex items-center gap-4">
         {
             links.map(({ href, label, Icon }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="text-fg-muted transition-colors hover:text-gold">
                     <Icon size={18} />
                 </a>
             ))
