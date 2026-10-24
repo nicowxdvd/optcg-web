@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   return (
@@ -14,6 +15,7 @@ export default function Header() {
             </Link>
             <NavLinks />
             <SocialLinks />
+            <ThemeToggle />
         </div>
     </header>
   )
