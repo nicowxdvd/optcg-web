@@ -1,6 +1,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import NavLinks from "./NavLinks";
+import SocialLinks from "./SocialLinks";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   return (
@@ -10,6 +13,9 @@ export default function Header() {
                 <Image src="/logo.svg" alt="" width={32} height={32} className="shrink-0" />
                 OPlay<span className="text-gold">TCG</span>
             </Link>
+            <NavLinks />
+            <SocialLinks />
+            <ThemeToggle />
         </div>
     </header>
   )
