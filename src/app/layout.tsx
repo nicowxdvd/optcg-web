@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col">
         <Header />
-        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col px-6 py-6">
+        <main className="mx-auto flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col px-6 py-2">
           {children}
         </main>
       </body>
