@@ -1,13 +1,19 @@
+import { Suspense } from "react";
 import Panel from "./Panel";
+import LeaderGrid from "./LeaderGrid";
+import GridSkeleton from "./GridSkeleton";
 
-export default function CatalogPanel() {
+type Props = {
+  searchParams : PageProps<"/deck-builder">["searchParams"];
+};
+
+
+export default function CatalogPanel({ searchParams }: Props) {
   return (
     <Panel header={<h2 className="font-display text-sm text-fg-muted">Elige un Líder para empezar a construir tu mazo.</h2>}>
-      {
-        Array.from({ length: 60 }, (_, i) => (
-          <p key={i} className="text-sm text-fg-muted">Carta {i + 1}</p>
-        ))
-      }
+       <Suspense fallback={<GridSkeleton />}>
+        <LeaderGrid searchParams={searchParams} />
+      </Suspense>
     </Panel>
   );
 }
