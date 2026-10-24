@@ -15,12 +15,12 @@ export default function SocialLinks() {
         {
             links.map(({ href, label, Icon }) => (
                 <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="text-fg-muted transition-colors hover:text-gold">
+                    key        = {label}
+                    href       = {href}
+                    target     = "_blank"
+                    rel        = "noopener noreferrer"
+                    aria-label = {label}
+                    className  = "text-fg-muted transition-colors hover:text-gold">
                     <Icon size={18} />
                 </a>
             ))
