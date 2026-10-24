@@ -1,5 +1,7 @@
+import PlaceholderPage from "@/components/ui/PlaceholderPage";
+
 export default function DeckBuilderPage() {
   return (
-    <div>page</div>
+    <PlaceholderPage title="..." />
   )
 }
