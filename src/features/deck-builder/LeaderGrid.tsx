@@ -42,12 +42,17 @@ export default async function LeaderGrid({ searchParams }: Props) {
     }
 
     return (
+    <>
+        <p className="mb-3 text-sm text-fg-muted">
+        {   data.total} {data.total === 1 ? "carta" : "cartas"}
+        </p>
         <div className="grid grid-cols-4 gap-3">
-        {
-            data.items.map((leader) => (
-                <LeaderCard key={leader.externalId} leader={leader} />
-            ))
-        }
+            {
+                data.items.map((leader) => (
+                    <LeaderCard key={leader.externalId} leader={leader} />
+                ))
+            }
         </div>
+    </>
     );
   }
