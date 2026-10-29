@@ -35,14 +35,6 @@ export default function LeaderFilters() {
 
   const [value, setValue] = useState(urlQuery);
 
-  function replaceParams(next: URLSearchParams) {
-    next.delete("page");
-    const query = next.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-  }
-
-
-
   useEffect(() => {
     const search = value.trim();
 
