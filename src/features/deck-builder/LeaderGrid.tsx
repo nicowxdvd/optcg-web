@@ -43,7 +43,7 @@ export default async function LeaderGrid({ searchParams }: Props) {
     return (
     <>
         <p className="mb-3 text-sm text-fg-muted">
-        {   data.total} {data.total === 1 ? "carta" : "cartas"}
+            { data.total} {data.total === 1 ? "carta" : "cartas" }
         </p>
         <div className="grid grid-cols-4 gap-3">
             {
