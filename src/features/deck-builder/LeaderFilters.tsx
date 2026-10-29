@@ -74,7 +74,7 @@ export default function LeaderFilters() {
     else
       next.delete("color");
 
-    replaceParams(next);
+    router.replace(buildHref(pathname, next), { scroll: false });
   }
 
   return (
