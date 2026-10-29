@@ -16,6 +16,17 @@ const COLORS = [
 ];
 
 
+
+function buildHref(pathname: string, params: URLSearchParams) {
+  const next = new URLSearchParams(params);
+  next.delete("page");
+  const query = next.toString();
+
+  return query ? `${pathname}?${query}` : pathname;
+}
+
+
+
 export default function LeaderFilters() {
   const router   = useRouter();
   const pathname = usePathname();
@@ -46,7 +57,7 @@ export default function LeaderFilters() {
       else
         next.delete("q");
 
-      replaceParams(next);
+      router.replace(buildHref(pathname, next), { scroll: false });
     }, DEBOUNCE_MS);
 
     return () => clearTimeout(id);
