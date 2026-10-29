@@ -27,7 +27,7 @@ export default function LeaderFilters() {
       />
 
         <select
-            name ="color"
+            name         = "color"
             defaultValue = {params.get("color") ?? ""}
             className    = "rounded-md border border-border bg-surface-raised px-3 py-2 text-sm text-fg"
         >
