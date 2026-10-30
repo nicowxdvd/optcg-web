@@ -1,8 +1,7 @@
 import { api } from "@/lib/api";
 import { Leader, Paginated } from "@/types/leader";
 
-const LIMIT        = 40;
-const CODE_PATTERN = /^[A-Z]{1,4}\d{0,2}-\d+/i;
+const LIMIT = 20;
 
 
 
@@ -15,18 +14,18 @@ export type LeaderFilters = {
 
 
 export function getLeaders({ q, color, page }: LeaderFilters) {
-    const params     = new URLSearchParams({ limit: String(LIMIT) });
-    const search     = q?.trim();
-    const pageNumber = Number(page);
+  const params     = new URLSearchParams({ limit: String(LIMIT) });
+  const search     = q?.trim();
+  const pageNumber = Number(page);
 
-    if (search) 
-        params.set(CODE_PATTERN.test(search) ? "code" : "name", search);
+  if (search)
+    params.set("q", search);
 
-    if (color) 
-        params.set("color", color);
+  if (color)
+    params.set("color", color);
 
-    if (Number.isInteger(pageNumber) && pageNumber >= 1) 
-        params.set("page", String(pageNumber));
+  if (Number.isInteger(pageNumber) && pageNumber >= 1)
+    params.set("page", String(pageNumber));
 
-    return api.get<Paginated<Leader>>(`/leaders?${params}`);
+  return api.get<Paginated<Leader>>(`/leaders?${params}`);
 }

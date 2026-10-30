@@ -1,6 +1,7 @@
 import { ApiError } from "@/lib/api";
 import LeaderCard from "./LeaderCard";
 import { getLeaders } from "./leaders";
+import LeaderPagination from "./LeaderPagination";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -17,14 +18,12 @@ function first(value: string | string[] | undefined) {
 
 export default async function LeaderGrid({ searchParams }: Props) {
     const params = await searchParams;
+    const q      = first(params.q);
+    const color  = first(params.color);
     let data;
 
     try {
-        data = await getLeaders({
-            q     : first(params.q),
-            color : first(params.color),
-            page  : first(params.page)
-        });
+        data = await getLeaders({ q, color, page: first(params.page) });
 
     } catch (error) {
         if (!(error instanceof ApiError)) 
@@ -44,7 +43,7 @@ export default async function LeaderGrid({ searchParams }: Props) {
     return (
     <>
         <p className="mb-3 text-sm text-fg-muted">
-        {   data.total} {data.total === 1 ? "carta" : "cartas"}
+            { data.total} {data.total === 1 ? "carta" : "cartas" }
         </p>
         <div className="grid grid-cols-4 gap-3">
             {
@@ -53,6 +52,7 @@ export default async function LeaderGrid({ searchParams }: Props) {
                 ))
             }
         </div>
+        <LeaderPagination page={data.page} totalPages={data.totalPages} q={q} color={color} />
     </>
     );
   }
