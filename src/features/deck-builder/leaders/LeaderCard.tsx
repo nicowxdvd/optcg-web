@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, type PointerEvent } from "react";
 import type { Leader } from "@/types/leader";
-import { useCardPreview } from "./CardPreviewContext";
+import { useCardPreview } from "../card-preview/CardPreviewContext";
 
 
 
