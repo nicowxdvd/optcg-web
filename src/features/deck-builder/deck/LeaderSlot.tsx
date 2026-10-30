@@ -16,12 +16,11 @@ export default function LeaderSlot() {
     );
 
   return (
-    <div className="relative aspect-63/88 w-40 overflow-hidden rounded-card border border-border bg-surface-raised">
       <button
-        type      = "button"
-        onClick   = {() => setLeader(null)}
+        type       = "button"
+        onClick    = {() => setLeader(null)}
         aria-label = {`Quitar líder ${leader.name}`}
-        className = "relative aspect-63/88 w-40 overflow-hidden rounded-card border border-border bg-surface-raised"
+        className  = "relative aspect-63/88 w-40 overflow-hidden rounded-card border border-border bg-surface-raised"
       >
         <Image
           src       = {leader.imageUrl}
@@ -31,6 +30,5 @@ export default function LeaderSlot() {
           className = "object-cover"
         />
       </button>
-    </div>
   );
 }
