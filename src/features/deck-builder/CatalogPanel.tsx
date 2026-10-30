@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import Panel from "./Panel";
-import LeaderGrid from "./LeaderGrid";
-import GridSkeleton from "./GridSkeleton";
-import LeaderFilters from "./LeaderFilters";
-import LeaderResults from "./LeaderResults";
+import LeaderGrid from "./leaders/LeaderGrid";
+import GridSkeleton from "./leaders/GridSkeleton";
+import LeaderFilters from "./leaders/LeaderFilters";
+import LeaderResults from "./leaders/LeaderResults";
 
 type Props = {
   searchParams : PageProps<"/deck-builder">["searchParams"];
