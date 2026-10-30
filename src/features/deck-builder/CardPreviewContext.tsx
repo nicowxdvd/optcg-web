@@ -31,10 +31,10 @@ import type { Leader } from "@/types/leader";
 
 
     export function useCardPreview() {
-    const context = useContext(CardPreviewContext);
+        const context = useContext(CardPreviewContext);
 
-    if (!context)
-        throw new Error("useCardPreview debe usarse dentro de CardPreviewProvider");
+        if (!context)
+            throw new Error("useCardPreview debe usarse dentro de CardPreviewProvider");
 
-    return context;
+        return context;
     }
