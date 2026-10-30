@@ -1,7 +1,7 @@
 import CatalogPanel from "@/features/deck-builder/CatalogPanel";
 import DeckPanel from "@/features/deck-builder/DeckPanel";
-import CardPreview from "@/features/deck-builder/CardPreview";
-import { CardPreviewProvider } from "@/features/deck-builder/CardPreviewContext";
+import CardPreview from "@/features/deck-builder/card-preview/CardPreview";
+import { CardPreviewProvider } from "@/features/deck-builder/card-preview/CardPreviewContext";
 
 export default function DeckBuilderPage({ searchParams }: PageProps<"/deck-builder">) {
   return (
