@@ -16,6 +16,8 @@ import { useCardPreview } from "./CardPreviewContext";
   export default function LeaderCard({ leader }: Props) {
     const { setLeader } = useCardPreview();
 
+
+    
     useEffect(() => {
       return () => setLeader(null);
     }, [setLeader]);
@@ -27,7 +29,7 @@ import { useCardPreview } from "./CardPreviewContext";
         setLeader(leader);
     }
 
-    
+
 
     return (
       <div
