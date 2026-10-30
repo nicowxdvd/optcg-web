@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FiSearch } from "react-icons/fi";
+import { FiChevronDown, FiSearch } from "react-icons/fi";
 
 const DEBOUNCE_MS = 300;
 
@@ -32,6 +32,9 @@ export default function LeaderFilters() {
   const pathname = usePathname();
   const params   = useSearchParams();
   const urlQuery = params.get("q") ?? "";
+  const color    = params.get("color") ?? "";
+
+  const activeCount = ["q", "color"].filter((key) => params.has(key)).length;
 
   const [value, setValue] = useState(urlQuery);
 
@@ -69,33 +72,52 @@ export default function LeaderFilters() {
     router.replace(buildHref(pathname, next), { scroll: false });
   }
 
+
+
+  function handleClear() {
+    setValue("");
+    router.replace(pathname, { scroll: false });
+  }
+
   return (
-    <div className="mb-3 flex flex-col gap-2">
+    <div className="mb-3 flex flex-col gap-3">
       <div className="relative">
-        <FiSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
+        <FiSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-fg-muted" />
         <input
           type        = "search"
           aria-label  = "Buscar líder"
           value       = {value}
           onChange    = {(event) => setValue(event.target.value)}
           placeholder = "Buscar nombre, código o arquetipo..."
-          className   = "w-full rounded-full border border-border bg-surface-raised py-2 pl-10 pr-3 text-sm text-fg"
+          className   = "w-full rounded-full border border-border bg-surface py-3 pl-11 pr-4 text-sm text-fg"
         />
       </div>
+       <div className="flex flex-wrap items-center gap-2">
+         <div className="relative">
+           <select
+            name      = "color"
+            value     = {color}
+            onChange  = {handleColor}
+            className = {`appearance-none rounded-full border bg-surface-raised py-2 pl-4 pr-9 text-sm ${color ? "border-gold text-gold" : "border-border text-fg-muted"}`}>
+              <option value="">Color</option>
+              {
+                COLORS.map((item) => (
+                  <option key={item.value} value={item.value}>{item.label}</option>
+                ))
+              }
+          </select>
+          <FiChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted" />
 
-      <select
-        name      = "color"
-        value     = {params.get("color") ?? ""}
-        onChange  = {handleColor}
-        className = "rounded-md border border-border bg-surface-raised px-3 py-2 text-sm text-fg"
-      >
-        <option value="">Todos los colores</option>
+         </div>
         {
-          COLORS.map((color) => (
-            <option key={color.value} value={color.value}>{color.label}</option>
-          ))
+          activeCount > 0 && (
+            <button type="button" onClick={handleClear} className="text-sm text-error">
+              Limpiar ({activeCount})
+            </button>
+          )
         }
-      </select>
+
+       </div>
     </div>
   );
 
