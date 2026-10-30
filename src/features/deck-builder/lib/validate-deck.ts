@@ -19,7 +19,7 @@ export const MAX_COPIES = 4;
 
 
 
-const colorsOf = (color: string) => color.split("/");
+export const colorsOf =(color: string) => color.split("/");
 
 
 
@@ -48,8 +48,8 @@ export function validateDeck({ leader, entries }: DeckInput): string[] {
         const allowed = colorsOf(leader.color);
 
     for (const { card } of entries)
-      if (!colorsOf(card.color).some(c => allowed.includes(c)))
-        violations.push(`${card.name} no comparte color con el líder.`);
+        if (!colorsOf(card.color).some(c => allowed.includes(c)))
+            violations.push(`${card.name} no comparte color con el líder.`);
     }
     
     return violations;
