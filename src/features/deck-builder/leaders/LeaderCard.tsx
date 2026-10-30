@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, type PointerEvent } from "react";
 import type { Leader } from "@/types/leader";
 import { useCardPreview } from "../card-preview/CardPreviewContext";
+import { useDeck } from "../deck/DeckContext";
 
 
 
@@ -14,28 +15,30 @@ import { useCardPreview } from "../card-preview/CardPreviewContext";
 
 
   export default function LeaderCard({ leader }: Props) {
-    const { setLeader } = useCardPreview();
+    const { setLeader: setPreview } = useCardPreview();
+    const { setLeader }             = useDeck();
 
 
     
     useEffect(() => {
-      return () => setLeader(null);
-    }, [setLeader]);
+      return () => setPreview(null);
+    }, [setPreview]);
 
 
 
     function handlePointerEnter(event: PointerEvent<HTMLDivElement>) {
       if (event.pointerType === "mouse")
-        setLeader(leader);
+        setPreview(leader);
     }
 
 
 
     return (
       <div
+        onClick        = {() => setLeader(leader)}
         onPointerEnter = {handlePointerEnter}
-        onPointerLeave = {() => setLeader(null)}
-        className      = "relative aspect-63/88 overflow-hidden rounded-card border border-border bg-surface-raised"
+        onPointerLeave = {() => setPreview(null)}
+        className      = "relative cursor-pointer aspect-63/88 overflow-hidden rounded-card border border-border bg-surface-raised"
       >
         <Image
           src       = {leader.imageUrl}
