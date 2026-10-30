@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { PointerEvent } from "react";
+import { useEffect, type PointerEvent } from "react";
 import type { Leader } from "@/types/leader";
 import { useCardPreview } from "./CardPreviewContext";
 
@@ -16,10 +16,18 @@ import { useCardPreview } from "./CardPreviewContext";
   export default function LeaderCard({ leader }: Props) {
     const { setLeader } = useCardPreview();
 
+    useEffect(() => {
+      return () => setLeader(null);
+    }, [setLeader]);
+
+
+
     function handlePointerEnter(event: PointerEvent<HTMLDivElement>) {
       if (event.pointerType === "mouse")
         setLeader(leader);
     }
+
+    
 
     return (
       <div
