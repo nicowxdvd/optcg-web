@@ -16,7 +16,7 @@ type Props = {
 const MAX_LAYERS = 2;
 const LAYER_STEP = 4;
 
-const BUTTON = "flex size-9 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-40";
+const BUTTON = "flex size-6 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-40";
 
 
 
@@ -48,7 +48,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
           sizes     = "80px"
           className = "object-cover"
         />
-        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 flex justify-start gap-1 p-1">
           <button
             type       = "button"
             aria-label = {`Quitar una copia de ${card.name}`}
@@ -69,7 +69,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
         </div>
       </div>
 
-      <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 text-xs font-bold text-white">
+      <span className="absolute -bottom-2 -right-2 rounded-full bg-black px-2 py-0.5 text-sm font-bold text-white ring-2 ring-surface">
         ×{qty}
       </span>
     </li>
