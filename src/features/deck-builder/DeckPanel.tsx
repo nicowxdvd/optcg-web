@@ -1,10 +1,11 @@
 import Panel from "./Panel";
 import DeckList from "./deck/DeckList";
+import DeckToolbar from "./deck/DeckToolbar";
 import LeaderSlot from "./deck/LeaderSlot";
 
 export default function DeckPanel() {
   return (
-    <Panel header={<h2 className="font-display text-xl text-fg">Mazo</h2>}>
+    <Panel header={<DeckToolbar />}>
       <LeaderSlot />
       <DeckList />
     </Panel>
