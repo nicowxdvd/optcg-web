@@ -69,7 +69,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
         </div>
       </div>
 
-      <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 text-xs font-bold text-white">
+      <span className="absolute -bottom-2 -right-2 rounded-full bg-black px-2 py-0.5 text-sm font-bold text-white ring-2 ring-surface">
         ×{qty}
       </span>
     </li>
