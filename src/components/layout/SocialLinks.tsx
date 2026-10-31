@@ -6,25 +6,26 @@ const links = [
   { href: "/", label: "YouTube",   Icon: SiYoutube },
   { href: "/", label: "X",         Icon: SiX },
   { href: "/", label: "Threads",   Icon: SiThreads },
-  { href: "/", label: "Facebook",  Icon: SiFacebook }
+  { href: "/", label: "Facebook",  Icon: SiFacebook },
 ];
 
 export default function SocialLinks() {
   return (
     <div className="ml-auto flex items-center gap-4">
-        {
-            links.map(({ href, label, Icon }) => (
-                <a
-                    key        = {label}
-                    href       = {href}
-                    target     = "_blank"
-                    rel        = "noopener noreferrer"
-                    aria-label = {label}
-                    className  = "text-fg-muted transition-colors hover:text-gold">
-                    <Icon size={18} />
-                </a>
-            ))
-        }
+      {
+        links.map(({ href, label, Icon }) => (
+          <a
+            key        = {label}
+            href       = {href}
+            target     = "_blank"
+            rel        = "noopener noreferrer"
+            aria-label = {label}
+            className  = "text-fg-muted transition-colors hover:text-gold">
+            <Icon size={18} />
+          </a>
+        ))
+      }
     </div>
-  )
+  );
+
 }
