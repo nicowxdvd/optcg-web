@@ -6,12 +6,17 @@ export class ApiError extends Error {
 
 
 
-  constructor(status: number, body: unknown) {
+  constructor(
+    status: number,
+    body: unknown
+  ) {
     super(`Error ${status} en la API`);
     this.name   = "ApiError";
     this.status = status;
     this.body   = body;
+
   }
+
 }
 
 
@@ -25,12 +30,16 @@ type RequestOptions = Omit<RequestInit, "body" | "headers"> & {
 
 async function parseBody(res: Response): Promise<unknown> {
   const text = await res.text();
-  if (!text) return undefined;
+
+  if (!text)
+    return undefined;
+
   try {
     return JSON.parse(text);
   } catch {
     return text;
   }
+
 }
 
 
@@ -38,20 +47,17 @@ async function parseBody(res: Response): Promise<unknown> {
 async function request<T>(path: string, { body, headers, ...init }: RequestOptions = {}): Promise<T> {
   const hasBody = body !== undefined;
 
-  const res = await fetch(`${API_URL}${path}`, {
-    ...init,
-    headers: {
-      Accept: "application/json", ...(hasBody && { "Content-Type": "application/json" }),...headers,
-    },
-    body: hasBody ? JSON.stringify(body) : undefined,
-  });
+  const res = await fetch(`${API_URL}${path}`, { ...init, headers: { Accept: "application/json", ...(hasBody && { "Content-Type": "application/json" }), ...headers }, body: hasBody ? JSON.stringify(body) : undefined });
 
   const data = await parseBody(res);
-  if (!res.ok) 
+
+  if (!res.ok)
     throw new ApiError(res.status, data);
 
   return data as T;
+
 }
+
 
 
 export const api = {

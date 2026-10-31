@@ -28,4 +28,5 @@ export function getLeaders({ q, color, page }: LeaderFilters) {
     params.set("page", String(pageNumber));
 
   return api.get<Paginated<Leader>>(`/leaders?${params}`);
+
 }

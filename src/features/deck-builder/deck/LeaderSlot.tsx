@@ -16,19 +16,20 @@ export default function LeaderSlot() {
     );
 
   return (
-      <button
-        type       = "button"
-        onClick    = {() => setLeader(null)}
-        aria-label = {`Quitar líder ${leader.name}`}
-        className  = "relative aspect-63/88 w-40 overflow-hidden rounded-card border border-border bg-surface-raised"
-      >
-        <Image
-          src       = {leader.imageUrl}
-          alt       = {`${leader.name} (${leader.cardCode})`}
-          fill
-          sizes     = "160px"
-          className = "object-cover"
-        />
-      </button>
+    <button
+      type       = "button"
+      onClick    = {() => setLeader(null)}
+      aria-label = {`Quitar líder ${leader.name}`}
+      className  = "relative aspect-63/88 w-40 overflow-hidden rounded-card border border-border bg-surface-raised"
+    >
+      <Image
+        src       = {leader.imageUrl}
+        alt       = {`${leader.name} (${leader.cardCode})`}
+        fill
+        sizes     = "160px"
+        className = "object-cover"
+      />
+    </button>
   );
+
 }
