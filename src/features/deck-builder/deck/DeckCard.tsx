@@ -48,7 +48,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
           sizes     = "80px"
           className = "object-cover"
         />
-        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 flex justify-start gap-1 p-1">
           <button
             type       = "button"
             aria-label = {`Quitar una copia de ${card.name}`}
