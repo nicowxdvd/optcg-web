@@ -16,7 +16,7 @@ type Props = {
 const MAX_LAYERS = 2;
 const LAYER_STEP = 4;
 
-const BUTTON = "flex size-9 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-40";
+const BUTTON = "flex size-6 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black/90 focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-40";
 
 
 
