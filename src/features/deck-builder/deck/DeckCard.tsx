@@ -57,6 +57,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
           >
             <PiMinus aria-hidden />
           </button>
+
           <button
             type       = "button"
             aria-label = {`Añadir una copia de ${card.name}`}
@@ -66,6 +67,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
           >
             <PiPlus aria-hidden />
           </button>
+          
         </div>
       </div>
 
