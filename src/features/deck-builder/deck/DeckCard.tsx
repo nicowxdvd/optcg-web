@@ -28,7 +28,7 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
   const layers = Math.min(qty - 1, MAX_LAYERS);
 
   return (
-     <li className="group relative aspect-63/88">
+    <li className="group relative aspect-63/88">
       {
         Array.from({ length: layers }, (_, i) => (
           <span
@@ -68,10 +68,11 @@ export default function DeckCard({ entry: { card, qty } }: Props) {
           </button>
         </div>
       </div>
-      
+
       <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 text-xs font-bold text-white">
         ×{qty}
       </span>
     </li>
   );
+
 }
