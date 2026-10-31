@@ -12,4 +12,5 @@ export default function Panel({ header, children }: Props) {
       <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
     </section>
   );
+
 }

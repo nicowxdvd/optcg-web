@@ -10,6 +10,7 @@ type Props = {
 };
 
 
+
 export default function CatalogPanel({ searchParams }: Props) {
   return (
     <Panel header={<h2 className="font-display text-sm text-fg-muted">Elige un Líder para empezar a construir tu mazo.</h2>}>
@@ -23,4 +24,5 @@ export default function CatalogPanel({ searchParams }: Props) {
       </Suspense>
     </Panel>
   );
+
 }
