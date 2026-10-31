@@ -1,7 +1,6 @@
 import PlaceholderPage from "@/components/ui/PlaceholderPage";
 
 export default function RankingPage() {
-  return (
-    <PlaceholderPage title="..." />
-  )
+  return <PlaceholderPage title="..." />;
+
 }

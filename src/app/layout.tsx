@@ -3,27 +3,11 @@ import { Outfit, Fraunces, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  display: "swap",
-});
+const outfit    = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
+const fraunces  = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], display: "swap" });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-export const metadata: Metadata = {
-  title: "OPTCG",
-};
+export const metadata: Metadata = { title: "OPTCG" };
 
 const themeScript = `try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
 
@@ -41,4 +25,5 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </body>
     </html>
   );
+
 }

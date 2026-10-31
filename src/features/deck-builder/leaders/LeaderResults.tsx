@@ -12,4 +12,5 @@ export default function LeaderResults({ children }: { children: ReactNode }) {
       {children}
     </Suspense>
   );
+
 }

@@ -16,12 +16,12 @@ type DeckState = {
 
 
 type DeckAction =
-  | { type: "setLeader"; leader: Leader | null }
-  | { type: "setName";   name: string }
-  | { type: "addCard";   card: Card }
+  | { type: "setLeader";  leader: Leader | null }
+  | { type: "setName";    name: string }
+  | { type: "addCard";    card: Card }
   | { type: "removeCard"; cardCode: string }
   | { type: "clear" }
-  | { type: "load"; state: DeckState };
+  | { type: "load";       state: DeckState };
 
 
 
@@ -31,6 +31,7 @@ const initialState: DeckState = { leader: null, name: "", cards: {} };
 
 function totalCards(cards: DeckState["cards"]) {
   return Object.values(cards).reduce((sum, { qty }) => sum + qty, 0);
+
 }
 
 
@@ -74,6 +75,7 @@ function reducer(state: DeckState, action: DeckAction): DeckState {
     case "load":
       return action.state;
   }
+
 }
 
 
@@ -107,6 +109,7 @@ export function DeckProvider({ children }: { children: ReactNode }) {
   };
 
   return <DeckContext value={value}>{children}</DeckContext>;
+
 }
 
 
@@ -118,4 +121,5 @@ export function useDeck() {
     throw new Error("useDeck debe usarse dentro de DeckProvider");
 
   return context;
+
 }

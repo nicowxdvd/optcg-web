@@ -7,22 +7,25 @@ import { FiChevronDown, FiSearch } from "react-icons/fi";
 const DEBOUNCE_MS = 300;
 
 const COLORS = [
-  { value: "Red"    , label: "Rojo"     },
-  { value: "Green"  , label: "Verde"    },
-  { value: "Blue"   , label: "Azul"     },
-  { value: "Purple" , label: "Morado"   },
-  { value: "Black"  , label: "Negro"    },
-  { value: "Yellow" , label: "Amarillo" }
+  { value: "Red",    label: "Rojo" },
+  { value: "Green",  label: "Verde" },
+  { value: "Blue",   label: "Azul" },
+  { value: "Purple", label: "Morado" },
+  { value: "Black",  label: "Negro" },
+  { value: "Yellow", label: "Amarillo" },
 ];
 
 
 
 function buildHref(pathname: string, params: URLSearchParams) {
   const next = new URLSearchParams(params);
+
   next.delete("page");
+
   const query = next.toString();
 
   return query ? `${pathname}?${query}` : pathname;
+
 }
 
 
@@ -53,9 +56,11 @@ export default function LeaderFilters() {
         next.delete("q");
 
       router.replace(buildHref(pathname, next), { scroll: false });
+
     }, DEBOUNCE_MS);
 
     return () => clearTimeout(id);
+
   }, [value, urlQuery, params, pathname, router]);
 
 
@@ -65,11 +70,11 @@ export default function LeaderFilters() {
 
     if (event.target.value)
       next.set("color", event.target.value);
-
     else
       next.delete("color");
 
     router.replace(buildHref(pathname, next), { scroll: false });
+
   }
 
 
@@ -77,7 +82,10 @@ export default function LeaderFilters() {
   function handleClear() {
     setValue("");
     router.replace(pathname, { scroll: false });
+
   }
+
+
 
   return (
     <div className="mb-3 flex flex-col gap-3">
@@ -92,23 +100,22 @@ export default function LeaderFilters() {
           className   = "w-full rounded-full border border-border bg-surface py-3 pl-11 pr-4 text-sm text-fg"
         />
       </div>
-       <div className="flex flex-wrap items-center gap-2">
-         <div className="relative">
-           <select
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="relative">
+          <select
             name      = "color"
             value     = {color}
             onChange  = {handleColor}
             className = {`appearance-none rounded-full border bg-surface-raised py-2 pl-4 pr-9 text-sm ${color ? "border-gold text-gold" : "border-border text-fg-muted"}`}>
-              <option value="">Color</option>
-              {
-                COLORS.map((item) => (
-                  <option key={item.value} value={item.value}>{item.label}</option>
-                ))
-              }
+            <option value="">Color</option>
+            {
+              COLORS.map((item) => (
+                <option key={item.value} value={item.value}>{item.label}</option>
+              ))
+            }
           </select>
           <FiChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-fg-muted" />
-
-         </div>
+        </div>
         {
           activeCount > 0 && (
             <button type="button" onClick={handleClear} className="text-sm text-error">
@@ -116,8 +123,7 @@ export default function LeaderFilters() {
             </button>
           )
         }
-
-       </div>
+      </div>
     </div>
   );
 
