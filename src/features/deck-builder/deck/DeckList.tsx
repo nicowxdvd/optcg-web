@@ -1,12 +1,9 @@
 "use client";
 
-
-
 import { PiCompass } from "react-icons/pi";
 import type { CardType } from "@/types/card";
 import { useDeck } from "./DeckContext";
 import DeckCard from "./DeckCard";
-
 
 
 
@@ -55,8 +52,10 @@ export default function DeckList() {
               </ul>
             </section>
           );
+
         })
       }
     </div>
   );
+
 }
