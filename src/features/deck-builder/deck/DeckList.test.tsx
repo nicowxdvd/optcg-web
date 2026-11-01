@@ -46,4 +46,17 @@ describe("DeckList", () => {
 
     expect(names).toEqual(["Nulo (D)", "Alfa (C)", "Zeta (B)", "Beta (A)"]);
   });
+
+  it.each([
+    ["coste nulo primero", [null, 2]],
+    ["coste nulo último",  [2, null]],
+  ])("ordena con %s", (_, costs) => {
+    const entries = costs.map((cost, i) => ({ card: makeCard({ cardCode: `K${i}`, name: `N${i}`, cost }), qty: 1 }));
+
+    renderWithProviders(<DeckList />, deckStateOf(entries, { leader: makeLeader() }));
+
+    const codes = within(screen.getByRole("list")).getAllByRole("img").map(img => img.getAttribute("alt"));
+
+    expect(codes).toEqual(costs[0] === null ? ["N0 (K0)", "N1 (K1)"] : ["N1 (K1)", "N0 (K0)"]);
+  });
 });
