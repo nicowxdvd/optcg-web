@@ -6,5 +6,5 @@ import { cleanup } from "@testing-library/react";
 afterEach(cleanup);
 
 vi.mock("next/image", () => ({
-  default: ({ fill: _fill, ...props }: { fill?: boolean; src: string; alt: string }) => createElement("img", props),
+  default: ({ fill, ...props }: { fill?: boolean; src: string; alt: string }) => createElement("img", { ...props, "data-fill": fill }),
 }));

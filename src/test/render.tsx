@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { useEffect, useRef, type ComponentProps, type ReactElement } from "react";
+import { useEffect, useRef, type ReactElement } from "react";
 import { CardPreviewProvider } from "@/features/deck-builder/card-preview/CardPreviewContext";
 import { DeckProvider, useDeck } from "@/features/deck-builder/deck/DeckContext";
 
@@ -20,7 +20,7 @@ function Loader({ state }: { state?: DeckState }) {
   return null;
 }
 
-export function renderWithProviders(ui: ReactElement, state?: DeckState, options?: ComponentProps<typeof render>[1]) {
+export function renderWithProviders(ui: ReactElement, state?: DeckState, options?: Parameters<typeof render>[1]) {
   return render(
     <DeckProvider>
       <CardPreviewProvider>
