@@ -81,9 +81,9 @@ export default function CardCatalog({ color }: Props) {
         }
       </p>
       <div className="grid grid-cols-4 gap-3">
-      {
-        data.items.map(card => <CatalogCard key={card.externalId} card={card} />)
-      }
+        {
+          data.items.map(card => <CatalogCard key={card.externalId} card={card} />)
+        }
       </div>
       {
         data.totalPages > 1 && (
