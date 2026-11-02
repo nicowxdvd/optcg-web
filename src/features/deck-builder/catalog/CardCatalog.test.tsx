@@ -50,4 +50,12 @@ describe("CardCatalog", () => {
 
     expect(await screen.findByText("1 carta")).toBeInTheDocument();
   });
+
+  it("cuenta varias cartas en plural", async () => {
+    get.mockResolvedValue(pageOf([makeCard(), nami()]));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByText("2 cartas")).toBeInTheDocument();
+  });
 });
