@@ -29,4 +29,10 @@ describe("getCards", () => {
 
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&page=3");
   });
+
+  it("ignora la página cero", async () => {
+    await getCards({ color: "Red", page: 0 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
+  });
 });
