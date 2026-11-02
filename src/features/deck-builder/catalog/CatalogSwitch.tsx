@@ -15,6 +15,6 @@ type Props = {
 export default function CatalogSwitch({ leaders }: Props) {
   const { leader } = useDeck();
 
-  return leader ? <CardCatalog /> : leaders;
+  return leader ? <CardCatalog key={leader.externalId} color={leader.color} /> : leaders;
 
 }
