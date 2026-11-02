@@ -66,4 +66,12 @@ describe("CardCatalog", () => {
 
     expect(await screen.findByText("No hay cartas para este líder.")).toBeInTheDocument();
   });
+
+  it("muestra error si falla la carga", async () => {
+    get.mockRejectedValue(new Error("fallo"));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByText("No se pudieron cargar las cartas.")).toBeInTheDocument();
+  });
 });
