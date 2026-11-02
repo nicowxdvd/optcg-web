@@ -23,4 +23,10 @@ describe("getCards", () => {
 
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red%2CGreen");
   });
+
+  it("agrega la página pedida", async () => {
+    await getCards({ color: "Red", page: 3 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&page=3");
+  });
 });
