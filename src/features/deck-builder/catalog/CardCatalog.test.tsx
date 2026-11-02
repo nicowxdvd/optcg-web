@@ -44,4 +44,10 @@ describe("CardCatalog", () => {
     expect(await screen.findByRole("img", { name: "Zoro (OP01-002)" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
   });
+
+  it("cuenta una carta en singular", async () => {
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByText("1 carta")).toBeInTheDocument();
+  });
 });
