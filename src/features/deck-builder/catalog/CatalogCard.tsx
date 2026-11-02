@@ -22,7 +22,7 @@ export default function CatalogCard({ card }: Props) {
 
 
 
-   return (
+  return (
     <div className="relative aspect-63/88">
       <button
         type       = "button"
@@ -49,7 +49,5 @@ export default function CatalogCard({ card }: Props) {
       }
     </div>
   );
-
-
 
 }
