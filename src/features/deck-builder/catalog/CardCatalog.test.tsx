@@ -134,4 +134,21 @@ describe("CardCatalog", () => {
 
     expect(screen.getByRole("button", { name: "Siguiente" })).toBeDisabled();
   });
+
+  it("descarta la respuesta de un color anterior", async () => {
+    let resolveRed!: (value: Paginated<Card>) => void;
+
+    get.mockReturnValueOnce(new Promise<Paginated<Card>>(resolve => { resolveRed = resolve; }));
+    get.mockResolvedValueOnce(pageOf([nami()]));
+
+    const { rerender } = render(<CardCatalog color="Red" />);
+
+    rerender(<CardCatalog color="Green" />);
+
+    await screen.findByRole("img", { name: "Nami (OP01-003)" });
+    await act(async () => { resolveRed(pageOf([makeCard()])); });
+
+    expect(screen.queryByRole("img", { name: "Zoro (OP01-002)" })).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
+  });
 });
