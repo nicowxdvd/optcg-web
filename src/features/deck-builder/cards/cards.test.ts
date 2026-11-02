@@ -17,4 +17,10 @@ describe("getCards", () => {
 
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
   });
+
+  it("une con coma los colores de un líder bicolor", async () => {
+    await getCards({ color: "Red/Green" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red%2CGreen");
+  });
 });
