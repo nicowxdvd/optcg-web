@@ -74,4 +74,12 @@ describe("CardCatalog", () => {
 
     expect(await screen.findByText("No se pudieron cargar las cartas.")).toBeInTheDocument();
   });
+
+  it("oculta la paginación con una sola página", async () => {
+    render(<CardCatalog color="Red" />);
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+
+    expect(screen.queryByRole("navigation", { name: "Paginación" })).not.toBeInTheDocument();
+  });
 });
