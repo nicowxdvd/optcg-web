@@ -27,4 +27,12 @@ describe("CardCatalog", () => {
 
     expect(get).toHaveBeenCalledWith({ color: "Red/Green", page: 1 });
   });
+
+  it("muestra el skeleton mientras carga", () => {
+    get.mockReturnValue(new Promise(() => {}));
+
+    const { container } = render(<CardCatalog color="Red" />);
+
+    expect(container.firstElementChild?.children).toHaveLength(20);
+  });
 });
