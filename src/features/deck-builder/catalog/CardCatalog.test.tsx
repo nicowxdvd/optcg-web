@@ -82,4 +82,12 @@ describe("CardCatalog", () => {
 
     expect(screen.queryByRole("navigation", { name: "Paginación" })).not.toBeInTheDocument();
   });
+
+  it("muestra la página actual y el total", async () => {
+    get.mockResolvedValue(pageOf([makeCard()], { totalPages: 3 }));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByText("Página 1 de 3")).toBeInTheDocument();
+  });
 });
