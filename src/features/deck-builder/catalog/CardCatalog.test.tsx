@@ -35,4 +35,13 @@ describe("CardCatalog", () => {
 
     expect(container.firstElementChild?.children).toHaveLength(20);
   });
+
+  it("muestra la imagen de cada carta", async () => {
+    get.mockResolvedValue(pageOf([makeCard(), nami()]));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByRole("img", { name: "Zoro (OP01-002)" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
+  });
 });
