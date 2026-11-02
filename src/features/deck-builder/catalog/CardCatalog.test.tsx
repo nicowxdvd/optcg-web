@@ -99,4 +99,15 @@ describe("CardCatalog", () => {
     expect(await screen.findByRole("button", { name: "Anterior" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Siguiente" })).toBeEnabled();
   });
+
+  it("avanza a la página siguiente", async () => {
+    get.mockImplementation(async ({ page }) => pageOf([makeCard()], { page: page ?? 1, totalPages: 3 }));
+
+    render(<CardCatalog color="Red" />);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
+
+    expect(await screen.findByText("Página 2 de 3")).toBeInTheDocument();
+    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 2 });
+  });
 });
