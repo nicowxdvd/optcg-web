@@ -41,4 +41,12 @@ describe("getCards", () => {
 
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
   });
+
+  it("devuelve lo que responde la API", async () => {
+    const payload = { items: [], total: 7, page: 2, totalPages: 4 };
+
+    get.mockResolvedValueOnce(payload);
+
+    await expect(getCards({ color: "Red" })).resolves.toBe(payload);
+  });
 });
