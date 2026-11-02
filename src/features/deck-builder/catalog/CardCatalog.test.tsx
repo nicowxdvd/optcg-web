@@ -90,4 +90,13 @@ describe("CardCatalog", () => {
 
     expect(await screen.findByText("Página 1 de 3")).toBeInTheDocument();
   });
+
+  it("deshabilita Anterior en la primera página", async () => {
+    get.mockResolvedValue(pageOf([makeCard()], { totalPages: 3 }));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByRole("button", { name: "Anterior" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Siguiente" })).toBeEnabled();
+  });
 });
