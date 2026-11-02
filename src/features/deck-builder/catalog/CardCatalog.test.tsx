@@ -58,4 +58,12 @@ describe("CardCatalog", () => {
 
     expect(await screen.findByText("2 cartas")).toBeInTheDocument();
   });
+
+  it("avisa si no hay cartas", async () => {
+    get.mockResolvedValue(pageOf([]));
+
+    render(<CardCatalog color="Red" />);
+
+    expect(await screen.findByText("No hay cartas para este líder.")).toBeInTheDocument();
+  });
 });
