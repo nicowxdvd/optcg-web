@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Card } from "@/types/card";
 import type { Paginated } from "@/types/leader";
 import { getCards } from "../cards/cards";
 import GridSkeleton from "../leaders/GridSkeleton";
+import CatalogCard from "./CatalogCard";
 
 
 
@@ -82,11 +82,7 @@ export default function CardCatalog({ color }: Props) {
       </p>
       <div className="grid grid-cols-4 gap-3">
         {
-          data.items.map(card => (
-            <div key={card.externalId} className="relative aspect-63/88 overflow-hidden rounded-card border border-border bg-surface-raised">
-              <Image src={card.imageUrl} alt={`${card.name} (${card.cardCode})`} fill sizes="10vw" className="object-cover" />
-            </div>
-          ))
+          data.items.map(card => <CatalogCard key={card.externalId} card={card} />)
         }
       </div>
       {

@@ -1,14 +1,18 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeCard } from "@/test/fixtures";
 import type { Card } from "@/types/card";
 import type { Paginated } from "@/types/leader";
 import { getCards } from "../cards/cards";
+import { DeckProvider } from "../deck/DeckContext";
 import CardCatalog from "./CardCatalog";
 
 vi.mock("../cards/cards", () => ({ getCards: vi.fn() }));
 
 const get = vi.mocked(getCards);
+
+const wrapper = ({ children }: { children: ReactNode }) => <DeckProvider>{children}</DeckProvider>;
 
 const pageOf = (items: Card[], overrides: Partial<Paginated<Card>> = {}): Paginated<Card> => ({ items, total: items.length, page: 1, totalPages: 1, ...overrides });
 
@@ -21,7 +25,7 @@ describe("CardCatalog", () => {
   });
 
   it("pide las cartas del color recibido", async () => {
-    render(<CardCatalog color="Red/Green" />);
+    render(<CardCatalog color="Red/Green" />, { wrapper });
 
     await screen.findByRole("img", { name: "Zoro (OP01-002)" });
 
@@ -31,7 +35,7 @@ describe("CardCatalog", () => {
   it("muestra el skeleton mientras carga", () => {
     get.mockReturnValue(new Promise(() => {}));
 
-    const { container } = render(<CardCatalog color="Red" />);
+    const { container } = render(<CardCatalog color="Red" />, { wrapper });
 
     expect(container.firstElementChild?.children).toHaveLength(20);
   });
@@ -39,14 +43,14 @@ describe("CardCatalog", () => {
   it("muestra la imagen de cada carta", async () => {
     get.mockResolvedValue(pageOf([makeCard(), nami()]));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByRole("img", { name: "Zoro (OP01-002)" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
   });
 
   it("cuenta una carta en singular", async () => {
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByText("1 carta")).toBeInTheDocument();
   });
@@ -54,7 +58,7 @@ describe("CardCatalog", () => {
   it("cuenta varias cartas en plural", async () => {
     get.mockResolvedValue(pageOf([makeCard(), nami()]));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByText("2 cartas")).toBeInTheDocument();
   });
@@ -62,7 +66,7 @@ describe("CardCatalog", () => {
   it("avisa si no hay cartas", async () => {
     get.mockResolvedValue(pageOf([]));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByText("No hay cartas para este líder.")).toBeInTheDocument();
   });
@@ -70,13 +74,13 @@ describe("CardCatalog", () => {
   it("muestra error si falla la carga", async () => {
     get.mockRejectedValue(new Error("fallo"));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByText("No se pudieron cargar las cartas.")).toBeInTheDocument();
   });
 
   it("oculta la paginación con una sola página", async () => {
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     await screen.findByRole("img", { name: "Zoro (OP01-002)" });
 
@@ -86,7 +90,7 @@ describe("CardCatalog", () => {
   it("muestra la página actual y el total", async () => {
     get.mockResolvedValue(pageOf([makeCard()], { totalPages: 3 }));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByText("Página 1 de 3")).toBeInTheDocument();
   });
@@ -94,7 +98,7 @@ describe("CardCatalog", () => {
   it("deshabilita Anterior en la primera página", async () => {
     get.mockResolvedValue(pageOf([makeCard()], { totalPages: 3 }));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     expect(await screen.findByRole("button", { name: "Anterior" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Siguiente" })).toBeEnabled();
@@ -103,7 +107,7 @@ describe("CardCatalog", () => {
   it("avanza a la página siguiente", async () => {
     get.mockImplementation(async ({ page }) => pageOf([makeCard()], { page: page ?? 1, totalPages: 3 }));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
 
@@ -114,7 +118,7 @@ describe("CardCatalog", () => {
   it("vuelve a la página anterior", async () => {
     get.mockImplementation(async ({ page }) => pageOf([makeCard()], { page: page ?? 1, totalPages: 3 }));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
     fireEvent.click(await screen.findByRole("button", { name: "Anterior" }));
@@ -126,7 +130,7 @@ describe("CardCatalog", () => {
   it("deshabilita Siguiente en la última página", async () => {
     get.mockImplementation(async ({ page }) => pageOf([makeCard()], { page: page ?? 1, totalPages: 2 }));
 
-    render(<CardCatalog color="Red" />);
+    render(<CardCatalog color="Red" />, { wrapper });
 
     fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
 
@@ -141,7 +145,7 @@ describe("CardCatalog", () => {
     get.mockReturnValueOnce(new Promise<Paginated<Card>>(resolve => { resolveRed = resolve; }));
     get.mockResolvedValueOnce(pageOf([nami()]));
 
-    const { rerender } = render(<CardCatalog color="Red" />);
+    const { rerender } = render(<CardCatalog color="Red" />, { wrapper });
 
     rerender(<CardCatalog color="Green" />);
 
@@ -158,7 +162,7 @@ describe("CardCatalog", () => {
     get.mockReturnValueOnce(new Promise<Paginated<Card>>((_, reject) => { rejectRed = reject; }));
     get.mockResolvedValueOnce(pageOf([nami()]));
 
-    const { rerender } = render(<CardCatalog color="Red" />);
+    const { rerender } = render(<CardCatalog color="Red" />, { wrapper });
 
     rerender(<CardCatalog color="Green" />);
 
