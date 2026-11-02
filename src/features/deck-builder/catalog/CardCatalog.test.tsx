@@ -151,4 +151,21 @@ describe("CardCatalog", () => {
     expect(screen.queryByRole("img", { name: "Zoro (OP01-002)" })).not.toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
   });
+
+  it("descarta el error de un color anterior", async () => {
+    let rejectRed!: (reason: unknown) => void;
+
+    get.mockReturnValueOnce(new Promise<Paginated<Card>>((_, reject) => { rejectRed = reject; }));
+    get.mockResolvedValueOnce(pageOf([nami()]));
+
+    const { rerender } = render(<CardCatalog color="Red" />);
+
+    rerender(<CardCatalog color="Green" />);
+
+    await screen.findByRole("img", { name: "Nami (OP01-003)" });
+    await act(async () => { rejectRed(new Error("fallo")); });
+
+    expect(screen.queryByText("No se pudieron cargar las cartas.")).not.toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Nami (OP01-003)" })).toBeInTheDocument();
+  });
 });
