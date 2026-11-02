@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { renderWithProviders } from "@/test/render";
 import CatalogPanel from "./CatalogPanel";
 
 vi.mock("next/navigation", () => ({
@@ -12,7 +13,7 @@ vi.mock("./leaders/LeaderGrid", () => ({ default: () => <p>grilla</p> }));
 
 describe("CatalogPanel", () => {
   it("compone encabezado, filtros y grilla", () => {
-    render(<CatalogPanel searchParams={Promise.resolve({})} />);
+    renderWithProviders(<CatalogPanel searchParams={Promise.resolve({})} />);
 
     expect(screen.getByRole("heading", { name: "Elige un Líder para empezar a construir tu mazo." })).toBeInTheDocument();
     expect(screen.getByRole("searchbox", { name: "Buscar líder" })).toBeInTheDocument();
