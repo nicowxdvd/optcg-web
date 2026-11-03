@@ -72,6 +72,12 @@ describe("getCards", () => {
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&cost=0");
   });
 
+  it("combina página, búsqueda, tipo y coste", async () => {
+    await getCards({ color: "Red", page: 2, q: "luffy", type: "CHARACTER", cost: 4 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&page=2&q=luffy&type=CHARACTER&cost=4");
+  });
+
   it("devuelve lo que responde la API", async () => {
     const payload = { items: [], total: 7, page: 2, totalPages: 4 };
 
