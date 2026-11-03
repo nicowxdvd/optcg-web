@@ -60,6 +60,18 @@ describe("getCards", () => {
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&type=EVENT");
   });
 
+  it("agrega el coste", async () => {
+    await getCards({ color: "Red", cost: 3 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&cost=3");
+  });
+
+  it("agrega el coste cero", async () => {
+    await getCards({ color: "Red", cost: 0 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&cost=0");
+  });
+
   it("devuelve lo que responde la API", async () => {
     const payload = { items: [], total: 7, page: 2, totalPages: 4 };
 
