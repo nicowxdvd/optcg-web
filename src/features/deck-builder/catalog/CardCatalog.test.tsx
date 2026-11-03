@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeCard } from "@/test/fixtures";
@@ -29,7 +29,7 @@ describe("CardCatalog", () => {
 
     await screen.findByRole("img", { name: "Zoro (OP01-002)" });
 
-    expect(get).toHaveBeenCalledWith({ color: "Red/Green", page: 1 });
+    expect(get).toHaveBeenCalledWith({ color: "Red/Green", page: 1, q: "" });
   });
 
   it("muestra el skeleton mientras carga", () => {
@@ -37,7 +37,7 @@ describe("CardCatalog", () => {
 
     const { container } = render(<CardCatalog color="Red" />, { wrapper });
 
-    expect(container.firstElementChild?.children).toHaveLength(20);
+    expect(container.lastElementChild?.children).toHaveLength(20);
   });
 
   it("muestra la imagen de cada carta", async () => {
@@ -112,7 +112,7 @@ describe("CardCatalog", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
 
     expect(await screen.findByText("Página 2 de 3")).toBeInTheDocument();
-    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 2 });
+    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 2, q: "" });
   });
 
   it("vuelve a la página anterior", async () => {
@@ -124,7 +124,7 @@ describe("CardCatalog", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Anterior" }));
 
     expect(await screen.findByText("Página 1 de 3")).toBeInTheDocument();
-    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1 });
+    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "" });
   });
 
   it("deshabilita Siguiente en la última página", async () => {
@@ -137,6 +137,113 @@ describe("CardCatalog", () => {
     await screen.findByText("Página 2 de 2");
 
     expect(screen.getByRole("button", { name: "Siguiente" })).toBeDisabled();
+  });
+
+  it("muestra los filtros", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+
+    expect(screen.getByRole("searchbox", { name: "Buscar carta" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Tipo" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Coste" })).toBeInTheDocument();
+  });
+
+  it("pide las cartas filtradas por tipo", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Tipo" }), { target: { value: "EVENT" } });
+
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "", type: "EVENT" }));
+  });
+
+  it("pide las cartas filtradas por coste", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Coste" }), { target: { value: "0" } });
+
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "", cost: 0 }));
+  });
+
+  it("pide las cartas filtradas por texto tras el debounce", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("searchbox", { name: "Buscar carta" }), { target: { value: "  nami " } });
+
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "nami" }));
+  });
+
+  it("combina varios filtros", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Tipo" }), { target: { value: "STAGE" } });
+    fireEvent.change(screen.getByRole("combobox", { name: "Coste" }), { target: { value: "3" } });
+
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "", type: "STAGE", cost: 3 }));
+  });
+
+  it("vuelve a la primera página al cambiar un filtro", async () => {
+    get.mockImplementation(async ({ page }) => pageOf([makeCard()], { page: page ?? 1, totalPages: 3 }));
+
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    fireEvent.click(await screen.findByRole("button", { name: "Siguiente" }));
+    await screen.findByText("Página 2 de 3");
+
+    fireEvent.change(screen.getByRole("combobox", { name: "Tipo" }), { target: { value: "EVENT" } });
+
+    expect(await screen.findByText("Página 1 de 3")).toBeInTheDocument();
+    expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "", type: "EVENT" });
+  });
+
+  it("avisa si ningún resultado coincide con los filtros", async () => {
+    get.mockResolvedValueOnce(pageOf([makeCard()]));
+    get.mockResolvedValue(pageOf([]));
+
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Tipo" }), { target: { value: "EVENT" } });
+
+    expect(await screen.findByText("No hay cartas con estos filtros.")).toBeInTheDocument();
+    expect(screen.queryByText("No hay cartas para este líder.")).not.toBeInTheDocument();
+  });
+
+  it("mantiene los filtros visibles cuando no hay resultados", async () => {
+    get.mockResolvedValue(pageOf([]));
+
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByText("No hay cartas para este líder.");
+
+    expect(screen.getByRole("combobox", { name: "Tipo" })).toBeInTheDocument();
+  });
+
+  it("mantiene los filtros visibles cuando falla la carga", async () => {
+    get.mockRejectedValue(new Error("fallo"));
+
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByText("No se pudieron cargar las cartas.");
+
+    expect(screen.getByRole("combobox", { name: "Tipo" })).toBeInTheDocument();
+  });
+
+  it("Limpiar quita los filtros y vuelve a pedir sin ellos", async () => {
+    render(<CardCatalog color="Red" />, { wrapper });
+
+    await screen.findByRole("img", { name: "Zoro (OP01-002)" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Tipo" }), { target: { value: "EVENT" } });
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "", type: "EVENT" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Limpiar (1)" }));
+
+    await waitFor(() => expect(get).toHaveBeenLastCalledWith({ color: "Red", page: 1, q: "" }));
+    expect(screen.getByRole("combobox", { name: "Tipo" })).toHaveValue("");
   });
 
   it("descarta la respuesta de un color anterior", async () => {
