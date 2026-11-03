@@ -29,24 +29,15 @@ export default function CardCatalog({ color }: Props) {
 
 
 
-  useEffect(() => {
-    let ignore = false;
+useEffect(() => {
+  let ignore = false;
 
-    getCards({ color, page })
-      .then(data => {
-        if (!ignore)
-          setResult({ key, data });
-      })
-      .catch(() => {
-        if (!ignore)
-          setResult({ key, data: null });
-      });
+  getCards({ color, page })
+    .then(data => { if (!ignore) setResult({ key, data }); })
+    .catch(() => { if (!ignore) setResult({ key, data: null }); });
 
-    return () => {
-      ignore = true;
-    };
-
-  }, [key, color, page]);
+  return () => { ignore = true; };
+}, [key, color, page]);
 
 
 
