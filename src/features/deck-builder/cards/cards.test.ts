@@ -42,6 +42,18 @@ describe("getCards", () => {
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
   });
 
+  it("agrega la búsqueda", async () => {
+    await getCards({ color: "Red", q: "luffy" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&q=luffy");
+  });
+
+  it("ignora una búsqueda vacía", async () => {
+    await getCards({ color: "Red", q: "" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
+  });
+
   it("devuelve lo que responde la API", async () => {
     const payload = { items: [], total: 7, page: 2, totalPages: 4 };
 
