@@ -54,6 +54,12 @@ describe("getCards", () => {
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
   });
 
+  it("agrega el tipo", async () => {
+    await getCards({ color: "Red", type: "EVENT" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&type=EVENT");
+  });
+
   it("devuelve lo que responde la API", async () => {
     const payload = { items: [], total: 7, page: 2, totalPages: 4 };
 
