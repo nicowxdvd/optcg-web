@@ -42,6 +42,42 @@ describe("getCards", () => {
     expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
   });
 
+  it("agrega la búsqueda", async () => {
+    await getCards({ color: "Red", q: "luffy" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&q=luffy");
+  });
+
+  it("ignora una búsqueda vacía", async () => {
+    await getCards({ color: "Red", q: "" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red");
+  });
+
+  it("agrega el tipo", async () => {
+    await getCards({ color: "Red", type: "EVENT" });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&type=EVENT");
+  });
+
+  it("agrega el coste", async () => {
+    await getCards({ color: "Red", cost: 3 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&cost=3");
+  });
+
+  it("agrega el coste cero", async () => {
+    await getCards({ color: "Red", cost: 0 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&cost=0");
+  });
+
+  it("combina página, búsqueda, tipo y coste", async () => {
+    await getCards({ color: "Red", page: 2, q: "luffy", type: "CHARACTER", cost: 4 });
+
+    expect(get).toHaveBeenCalledWith("/cards?limit=20&color=Red&page=2&q=luffy&type=CHARACTER&cost=4");
+  });
+
   it("devuelve lo que responde la API", async () => {
     const payload = { items: [], total: 7, page: 2, totalPages: 4 };
 
